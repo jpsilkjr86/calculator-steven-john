@@ -93,7 +93,7 @@
 // Your code here...
         var firstNumber = "";
         var secondNumber = "";
-        var operator;
+        var operator = "";
         var isOperatorChosen;
         var isCalculated;
         var result;
@@ -103,10 +103,16 @@
             $("#second-number").empty();
             $("#operator").empty();
             $("#result").empty();
-        }
+        };
+       
+
         $(".number").on("click", function() {
             
             console.log(this.value);
+            if(isCalculated){
+                init();
+                clearValues();
+            }
             if (isOperatorChosen) {
                 $("#second-number").append(this.value);
                 secondNumber += this.value;
@@ -116,8 +122,6 @@
                 $("#first-number").append(this.value);
                 // var number = this.value.toString();
                 firstNumber += this.value;
-                
-
                 console.log("first " + firstNumber);
 
             }                                 
@@ -126,23 +130,80 @@
         $(".operator").on("click", function() {
             $("#operator").append(this.value);
             console.log(this.value);
+            operator = this.value;
             isOperatorChosen = true;
             firstNumber = parseInt(firstNumber);
-            console.log(firstNumber);                                   
+            console.log(firstNumber);                                  
         });
 
         $(".clear").on("click", function() {
             init();
-        })
+            clearValues();
+        });
 
-        init()
-/*
-        function clearValues () {
-            CLEAR VALUE CODE HERE
+        function clearValues(){
+            firstNumber = "";
+            secondNumber = "";
+            operator = "";
+            isOperatorChosen = false;
+            isCalculated = false;
+            result = "";
         }
 
-        Put init() as *first* line of code in selector for numbers
-*/
+        function addVar(x,y){
+            return(x+y);
+        }
+
+        function multiVar(x,y){
+            return(x*y);
+        }
+
+         function diviVar(x,y){
+            return(x/y);
+        }
+
+        function subtVar(x,y){
+            return(x-y);
+        }
+
+        function powerVar(x,y){
+            return(Math.pow(x,y));
+        }
+
+        $(".equal").on("click", function(){
+            secondNumber = parseInt(secondNumber);
+
+            if (operator === "+"){
+                result = addVar(firstNumber,secondNumber);
+            }
+
+            if (operator === "-"){
+                result = subtVar(firstNumber,secondNumber);
+            }
+
+            if (operator === "*"){
+                result = multiVar(firstNumber,secondNumber);
+            }
+
+            if (operator === "/"){
+                result = diviVar(firstNumber,secondNumber);
+            }
+
+            if (operator === "^"){
+                result = powerVar(firstNumber,secondNumber);
+            }
+
+            $("#result").append(result);
+
+            isCalculated = true;
+
+        });
+            
+
+        // $(".number").on("keypress", function()
+        // {
+
+        // });
 
 
     });
