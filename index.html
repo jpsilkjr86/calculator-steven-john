@@ -90,7 +90,7 @@
     <script type="text/javascript">
     $(document).ready(function() {
 
-// Your code here...
+        // Your code here...
         var firstNumber = "";
         var secondNumber = "";
         var operator = "";
@@ -98,18 +98,45 @@
         var isCalculated;
         var result;
 
-        function init(){
+        function init() {
             $("#first-number").empty();
             $("#second-number").empty();
             $("#operator").empty();
             $("#result").empty();
         };
-       
+        $(document).keypress(function(event) {
+
+            console.log("keyPressed " + event.key);
+            if (isCalculated) {
+                init();
+                clearValues();
+            }
+            if (isOperatorChosen) {
+                $("#second-number").append(event.key);
+                secondNumber += event.key;
+                console.log("sec " + secondNumber);
+            } else {
+                $("#first-number").append(event.key);
+                // var number = this.value.toString();
+                firstNumber += event.key;
+                console.log("first " + firstNumber);
+
+            }
+        });
+
+        $(document).keypress(function(event) {
+            $("#operator").append(event.key);
+            console.log(event.key);
+            operator = event.key;
+            isOperatorChosen = true;
+            firstNumber = parseInt(firstNumber);
+            console.log(firstNumber);
+        });
 
         $(".number").on("click", function() {
-            
+
             console.log(this.value);
-            if(isCalculated){
+            if (isCalculated) {
                 init();
                 clearValues();
             }
@@ -117,14 +144,13 @@
                 $("#second-number").append(this.value);
                 secondNumber += this.value;
                 console.log("sec " + secondNumber);
-            }
-            else{
+            } else {
                 $("#first-number").append(this.value);
                 // var number = this.value.toString();
                 firstNumber += this.value;
                 console.log("first " + firstNumber);
 
-            }                                 
+            }
         });
 
         $(".operator").on("click", function() {
@@ -133,7 +159,7 @@
             operator = this.value;
             isOperatorChosen = true;
             firstNumber = parseInt(firstNumber);
-            console.log(firstNumber);                                  
+            console.log(firstNumber);
         });
 
         $(".clear").on("click", function() {
@@ -141,7 +167,7 @@
             clearValues();
         });
 
-        function clearValues(){
+        function clearValues() {
             firstNumber = "";
             secondNumber = "";
             operator = "";
@@ -150,47 +176,47 @@
             result = "";
         }
 
-        function addVar(x,y){
-            return(x+y);
+        function addVar(x, y) {
+            return (x + y);
         }
 
-        function multiVar(x,y){
-            return(x*y);
+        function multiVar(x, y) {
+            return (x * y);
         }
 
-         function diviVar(x,y){
-            return(x/y);
+        function diviVar(x, y) {
+            return (x / y);
         }
 
-        function subtVar(x,y){
-            return(x-y);
+        function subtVar(x, y) {
+            return (x - y);
         }
 
-        function powerVar(x,y){
-            return(Math.pow(x,y));
+        function powerVar(x, y) {
+            return (Math.pow(x, y));
         }
 
-        $(".equal").on("click", function(){
+        $(".equal").on("click", function() {
             secondNumber = parseInt(secondNumber);
 
-            if (operator === "+"){
-                result = addVar(firstNumber,secondNumber);
+            if (operator === "+") {
+                result = addVar(firstNumber, secondNumber);
             }
 
-            if (operator === "-"){
-                result = subtVar(firstNumber,secondNumber);
+            if (operator === "-") {
+                result = subtVar(firstNumber, secondNumber);
             }
 
-            if (operator === "*"){
-                result = multiVar(firstNumber,secondNumber);
+            if (operator === "*") {
+                result = multiVar(firstNumber, secondNumber);
             }
 
-            if (operator === "/"){
-                result = diviVar(firstNumber,secondNumber);
+            if (operator === "/") {
+                result = diviVar(firstNumber, secondNumber);
             }
 
-            if (operator === "^"){
-                result = powerVar(firstNumber,secondNumber);
+            if (operator === "^") {
+                result = powerVar(firstNumber, secondNumber);
             }
 
             $("#result").append(result);
@@ -198,12 +224,7 @@
             isCalculated = true;
 
         });
-            
 
-        // $(".number").on("keypress", function()
-        // {
-
-        // });
 
 
     });
