@@ -88,9 +88,10 @@
         </div>
     </div>
     <script type="text/javascript">
+
     $(document).ready(function() {
 
-        // Your code here...
+        // ****************************DECLARE VARIABLES****************************
         var firstNumber = "";
         var secondNumber = "";
         var operator = "";
@@ -98,75 +99,14 @@
         var isCalculated;
         var result;
 
+        // ****************************DECLARE FUNCTIONS****************************
         function init() {
             $("#first-number").empty();
             $("#second-number").empty();
             $("#operator").empty();
             $("#result").empty();
         };
-        $(document).keypress(function(event) {
-
-            console.log("keyPressed " + event.key);
-            if (isCalculated) {
-                init();
-                clearValues();
-            }
-            if (isOperatorChosen) {
-                $("#second-number").append(event.key);
-                secondNumber += event.key;
-                console.log("sec " + secondNumber);
-            } else {
-                $("#first-number").append(event.key);
-                // var number = this.value.toString();
-                firstNumber += event.key;
-                console.log("first " + firstNumber);
-
-            }
-        });
-
-        $(document).keypress(function(event) {
-            $("#operator").append(event.key);
-            console.log(event.key);
-            operator = event.key;
-            isOperatorChosen = true;
-            firstNumber = parseInt(firstNumber);
-            console.log(firstNumber);
-        });
-
-        $(".number").on("click", function() {
-
-            console.log(this.value);
-            if (isCalculated) {
-                init();
-                clearValues();
-            }
-            if (isOperatorChosen) {
-                $("#second-number").append(this.value);
-                secondNumber += this.value;
-                console.log("sec " + secondNumber);
-            } else {
-                $("#first-number").append(this.value);
-                // var number = this.value.toString();
-                firstNumber += this.value;
-                console.log("first " + firstNumber);
-
-            }
-        });
-
-        $(".operator").on("click", function() {
-            $("#operator").append(this.value);
-            console.log(this.value);
-            operator = this.value;
-            isOperatorChosen = true;
-            firstNumber = parseInt(firstNumber);
-            console.log(firstNumber);
-        });
-
-        $(".clear").on("click", function() {
-            init();
-            clearValues();
-        });
-
+        
         function clearValues() {
             firstNumber = "";
             secondNumber = "";
@@ -196,6 +136,70 @@
             return (Math.pow(x, y));
         }
 
+        // ************************EVENTS TRIGGERING FUNCTIONS************************
+
+        // Event listener for keyboard input, triggers button events successfully:
+        $(document).keypress(function(event){
+            var kC = event.keyCode;
+            var key = event.key;
+            console.log("event.keyCode:", kC);
+            console.log("event.key", key);
+
+            // Only for inputs between 0 and 9 on either the keyboard or numpad
+            if ((kC >= 48 && kC <= 57) || (kC >= 96 && kC <= 105)){
+                $(".number[value='" + key + "']").trigger('click');
+            }
+            // Only for operator inputs
+            if (key === "+" || key === "-" || key === "*" || key === "/" || key === "^"){
+                $(".operator[value='" + key + "']").trigger('click');
+            }
+
+            // Only for Enter inputs
+            if (key === "Enter"){
+                $(".equal").trigger('click');
+            }
+
+            // Spacebar clears input
+            if (kC === 32){
+                $(".clear").trigger('click');
+            }
+
+            // Add backspace event here to remove last number character? 
+
+            // Other keypress events do nothing to the page.
+        });
+
+
+        // Event listeners for button clicks (main calculator functionality)
+        $(".number").on("click", function() {
+
+            console.log(this.value);
+            if (isCalculated) {
+                init();
+                clearValues();
+            }
+            if (isOperatorChosen) {
+                $("#second-number").append(this.value);
+                secondNumber += this.value;
+                console.log("sec " + secondNumber);
+            } else {
+                $("#first-number").append(this.value);
+                // var number = this.value.toString();
+                firstNumber += this.value;
+                console.log("first " + firstNumber);
+
+            }
+        });
+
+        $(".operator").on("click", function() {
+            $("#operator").append(this.value);
+            console.log(this.value);
+            operator = this.value;
+            isOperatorChosen = true;
+            firstNumber = parseInt(firstNumber);
+            console.log(firstNumber);
+        });
+
         $(".equal").on("click", function() {
             secondNumber = parseInt(secondNumber);
 
@@ -222,12 +226,15 @@
             $("#result").append(result);
 
             isCalculated = true;
-
         });
 
+        $(".clear").on("click", function() {
+            init();
+            clearValues();
+        });
 
+    }); // End of document ready
 
-    });
     </script>
 </body>
 
